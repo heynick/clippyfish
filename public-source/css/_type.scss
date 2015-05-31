@@ -1,0 +1,52 @@
+@import url(http://fonts.googleapis.com/css?family=Lato:300);
+
+h1 {
+	letter-spacing: -0.5px;
+	padding: 0.75em 1em 0.75em 0.75em;
+	font-size: 1.25em;
+	color: #fff;
+	background-color: $cyan;
+	margin-bottom: 1em;
+	font-weight: normal;
+	pointer-events: none;
+}
+
+h2 {
+	font-size: 1em;
+	line-height: 1;
+	letter-spacing: -0.3px;
+	margin: 0;
+	padding-top: 1em;
+	padding-bottom: 1em;
+	background-color: $cyan;
+	color: #fff;
+	font-weight: normal;
+}
+
+p {
+  font-size: 0.9em;
+  line-height: 1.5;
+  margin: 0 0 1em;
+}
+
+a {
+	color: $cyan;
+	transition: all $timing ease-in-out;
+
+	&:hover,
+	&:focus {
+		background-color: $cyan;
+		color: #fff;
+		span {
+			color: #fff;
+
+		}
+	}
+}
+
+h1,
+.make-me,
+.big-button {
+  font-family: 'Lato', sans-serif;
+  text-transform: uppercase;
+}

@@ -1,0 +1,82 @@
+/* ==========================================================================
+   Base styles: opinionated defaults
+   ========================================================================== */
+
+html{
+    font:#{($base-font-size/16px)*1em}/#{$base-line-height} $base-font-family;
+    min-height:100%;
+}
+
+body {
+  font-family: Arial,sans-serif;
+  text-align: center;
+  background-color: #fff;
+}
+
+
+/*
+ * Remove text-shadow in selection highlight: h5bp.com/i
+ * These selection rule sets have to be separate.
+ * Customize the background color to match your design.
+ */
+
+::-moz-selection {
+  background: pink;
+  text-shadow: none;
+}
+
+::selection {
+  background: pink;
+  text-shadow: none;
+}
+
+/*
+ * Remove the gap between images, videos, audio and canvas and the bottom of
+ * their containers: h5bp.com/i/440
+ */
+
+audio,
+canvas,
+img,
+svg,
+video {
+  vertical-align: middle;
+}
+
+/*
+ * Remove default fieldset styles.
+ */
+
+fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+/*
+ * Allow only vertical resizing of textareas.
+ */
+
+textarea {
+  resize: vertical;
+}
+
+/* ==========================================================================
+   Browse Happy prompt
+   ========================================================================== */
+
+.browsehappy {
+  margin: 0.2em 0;
+  background: $cyan-light;
+  color: #000;
+  padding: 0.2em 0;
+
+}
+
+#debug {
+  position: fixed;
+  z-index: 9999;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(255,255,255, 0.8);
+}

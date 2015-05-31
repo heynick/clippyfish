@@ -1,0 +1,53 @@
+#paste {
+  margin: 0 15px;
+}
+
+.intro {
+  margin-bottom: 2em;
+}
+
+article {
+  max-width: 35em;
+  margin: 0 auto 1.25em;
+  background-color: #eee;
+  border-radius: 4px;
+  overflow: hidden;
+  transition: height 100ms ease, transform 400ms cubic-bezier(0.075, 0.82, 0.165, 1);
+
+  span {
+    color: #333;
+    font-size: 0.75em;
+  }
+
+  a {
+    word-break: break-word;
+  }
+
+  .article-inner {
+    padding: 1em 1em 0.75em;
+  }
+
+
+}
+
+.new {
+  height: 0;
+  transform: scale(0);
+  opacity: 0;
+/*   margin-bottom: 0;
+
+  &[reveal="true"] {
+    margin-bottom: 1.25em;
+  } */
+  &[reveal-transition="complete"] {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+}
+
+#input {
+//  visibility: hidden;
+  //position: absolute;
+  margin-bottom: 1em;
+}

@@ -1,0 +1,64 @@
+<!doctype html>
+<!--[if IE 8]>         <html class="lt-ie10 lt-ie9" lang="en"> <![endif]-->
+<!--[if IE 9]>         <html class="lt-ie10" lang="en"> <![endif]-->
+<!--[if IE]>           <html class="ie" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html lang="en">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <link rel="shortcut icon" href="/img/favicon.ico"/>
+
+  <title>Clippy fish</title>
+
+  <link rel="stylesheet" type="text/css" href="/css/style.min.css">
+
+</head>
+
+<body>
+
+  <noscript>
+    <p class="browsehappy">
+      Your Javascript is disabled. Most of the internet probably won't work.
+    </p>
+  </noscript>
+
+  <!--[if lte IE 9]>
+  <p class="browsehappy">You're using an <strong>outdated</strong> browser which is not supported by this website. Please <a href="http://browsehappy.com/">upgrade
+      your browser</a> to improve the internet.</p>
+  <![endif]-->
+
+
+  <script id="template" type="text/template">
+
+  {{#.}}
+    <article>
+      <div class="article-inner">
+        <p>{{{data}}}</p>
+        <span>{{dateFormat date}}</span>
+      </div>
+    </article>
+
+  {{/.}}
+
+  </script>
+
+
+
+  <h1>Clippy fish</h1>
+
+  <input type="text" id="input" autofocus="autofocus">
+
+  <div class="intro">
+    <p>Hit <strong><span id="ctrl">Command</span> + V</strong> to share with the world!</p>
+  </div>
+
+  <div id="paste"></div>
+
+  <script src="js/scripts.js"></script>
+
+</body>
+</html>
