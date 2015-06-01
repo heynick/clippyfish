@@ -14,7 +14,7 @@
 
   <title>Clippy fish</title>
 
-  <link rel="stylesheet" type="text/css" href="/css/style.min.css">
+  <link rel="stylesheet" type="text/css" href="/css/style.css">
 
 </head>
 
@@ -35,7 +35,7 @@
   <script id="template" type="text/template">
 
   {{#.}}
-    <article>
+    <article id="{{_id}}">
       <div class="article-inner">
         <p>{{{data}}}</p>
         <span>{{dateFormat date}}</span>

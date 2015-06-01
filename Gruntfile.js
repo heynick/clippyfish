@@ -3,10 +3,10 @@
 
 module.exports = function (grunt) {
     // show elapsed time at the end
-    //require('time-grunt')(grunt);
+    require('time-grunt')(grunt);
     // load all grunt tasks
     require('load-grunt-tasks')(grunt);
-    grunt.loadNpmTasks('assemble');
+
     // configurable paths
     var settingsConfig = {
         src: './public-source',
@@ -21,9 +21,41 @@ module.exports = function (grunt) {
 
         concurrent: {
           dev: {
-            tasks: ['nodemon', /*'node-inspector',*/ 'watch'],
+            script: 'app.js',
+            tasks: [
+                'nodemon:dev',
+                'watch'
+            ],
             options: {
-              logConcurrentOutput: true
+              logConcurrentOutput: true,
+              /** Environment variables required by the NODE application **/
+              env: {
+                    'NODE_ENV': 'development',
+                    'NODE_CONFIG': 'dev'
+              },
+              watch: ['server'],
+              delay: 300,
+              callback: function (nodemon) {
+                  nodemon.on('log', function (event) {
+                      console.log(event.colour);
+                  });
+
+                  /** Open the application in a new browser window and is optional **/
+                  nodemon.on('config:update', function () {
+                      // Delay before server listens on port
+                      setTimeout(function() {
+                          require('open')('http://127.0.0.1:8000');
+                      }, 1000);
+                  });
+
+                  /** Update .rebooted to fire Live-Reload **/
+                  nodemon.on('restart', function () {
+                      // Delay before server listens on port
+                      setTimeout(function() {
+                          require('fs').writeFileSync('.rebooted', 'rebooted');
+                      }, 1000);
+                  });
+              }
             }
           }
         },
@@ -65,13 +97,16 @@ module.exports = function (grunt) {
         watch: {
             sass: {
                 files: '<%= settings.src %>/css/**/*.scss',
-                tasks: ['styles']
+                tasks: ['styles'],
+                options: {
+                    livereload: true
+                }
             },
             scripts: {
                 files: ['<%= settings.src %>/js/**/*.js'],
-                tasks: ['scripts'],
+                tasks: ['scripts', 'concat', 'uglify'],
                 options: {
-                    spawn: false
+                    livereload: true
                 }
             },
             sprites: {
@@ -327,17 +362,17 @@ module.exports = function (grunt) {
             }
         }
     });
+
     grunt.registerTask('serve', function () {
         grunt.task.run([
-            'devbuild',
-            'nodemon:dev', // this is the money
-            'watch'
+            'build',
+            'concurrent:dev'
         ]);
     });
 
 
     grunt.registerTask('devbuild', [
-        //'clean:all', // don't do this, it deletes the uploaded images
+        'clean:all',
         'styles',
         'cssmin',
         'scripts',
@@ -348,12 +383,11 @@ module.exports = function (grunt) {
 
     // do a production build
     grunt.registerTask('build', [
-
         'styles',
-        'cssmin',
+        //'cssmin',
         'scripts',
         'concat',
-        'uglify',
+        //'uglify',
         'fonts'
     ]);
 

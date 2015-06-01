@@ -12,7 +12,6 @@ var routes = require('./routes/index');
 var app = express();
 
 
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.engine('html', require('ejs').renderFile);
@@ -29,9 +28,6 @@ app.use(favicon(__dirname + '/public/img/favicon.ico'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
-
-
-
 
 
 app.set('port', process.env.PORT || 3000);
@@ -73,6 +69,4 @@ app.use(function(err, req, res, next) {
     });
 });
 
-
 module.exports = app;
-
