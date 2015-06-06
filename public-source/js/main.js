@@ -4,6 +4,7 @@ window.onload = function() {
     // initialise modules
     app.forceFocus();
     app.initialRender();
+    app.loadMore();
     app.ctrlTextChanger();
     app.paste();
 

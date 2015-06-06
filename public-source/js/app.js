@@ -3,15 +3,18 @@ var app = app || {};
 app = (function () {
 	'use strict';
 
+	var inputEl = document.getElementById('input'),
+		errorEl = document.getElementById('error'),
+		pasteEl = document.getElementById('paste');
+
+
 	var forceFocus = function() {
 
-		document.getElementById('input').focus();
+		inputEl.focus();
 
-		if (window.chrome) {
-			document.getElementById('input').remove();
+		if (window.chrome && screen.width > 768) {
+			inputEl.remove();
 		}
-
-
 
 	};
 
@@ -24,18 +27,45 @@ app = (function () {
 
 	};
 
+	var loadMore = function() {
 
-	var pasteEl = document.getElementById('paste');
+		var count = 0;
+
+		window.onscroll = function() {
+		    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+		        console.log('bottom');
+
+		        var requestGet = new XMLHttpRequest();
+		        requestGet.open('GET', '/more', true);
+
+		        requestGet.onload = function() {
+
+		          if (requestGet.status >= 200 && requestGet.status < 400){
+		        	    // Success!
+		        	    handleBarsRender(requestGet.responseText, true);
+				        count++;
+
+		        	}
+		        };
+
+		        requestGet.send('BAAAAAAAAAAAAAAAAAAAAALLS');
+
+
+		    }
+		};
+	};
+
+
+	//  format an ISO date using Moment.js
+	Handlebars.registerHelper('dateFormat', function(context, block) {
+	  	if (window.moment) {
+	    	return moment(context).fromNow();
+	  	} else {
+	    	return context; // moment plugin not available. return data as is.
+	  	};
+	});
 
 	var handleBarsRender = function(resp, initial) {
-		//  format an ISO date using Moment.js
-		Handlebars.registerHelper('dateFormat', function(context, block) {
-		  if (window.moment) {
-		    return moment(context).fromNow();
-		  } else {
-		    return context; // moment plugin not available. return data as is.
-		  };
-		});
 
 		var respFile = JSON.parse(resp),
 	    	source = document.getElementById('template').innerHTML,
@@ -53,8 +83,6 @@ app = (function () {
 	    	newEl.classList.add('new');
 	    	newEl.setAttribute('reveal', true);
 	    }
-
-
 
 	};
 
@@ -87,13 +115,21 @@ app = (function () {
 		        false;
 
 		    if (paste) {
-
 		        postToServer(paste);
-
 		    }
 		};
 
 	};
+
+
+	var showError = function() {
+		errorEl.classList.add('visible');
+
+		setTimeout(function() {
+			errorEl.classList.remove('visible');
+		}, 2500)
+	};
+
 
 	var postToServer = function(paste) {
 
@@ -108,20 +144,26 @@ app = (function () {
 				return;
 			};
 
-			if (serverPaste.responseText !== 'err') {
+			if (serverPaste.responseText === 'string too long') {
+				errorEl.innerHTML = "That's a bit too much text, try cutting it back to less than 2000 characters.";
+				showError();
+				return;
+			}
 
+			if (serverPaste.responseText !== 'err') {
+				// all good in the hood
+				errorEl.classList.remove('visible');
 				handleBarsRender(serverPaste.responseText, false);
 
 			} else {
-
-				console.log('something fucked up on the server');
+				errorEl.innerHTML = "Something rooted up happened on the server. Sorry about that.";
+				showError();
 
 			}
 
 		};
 
 		serverPaste.send(paste);
-
 	};
 
 
@@ -129,6 +171,7 @@ app = (function () {
 		forceFocus: forceFocus,
 		initialRender: initialRender,
 		ctrlTextChanger: ctrlTextChanger,
+		loadMore: loadMore,
 		paste: paste
 	};
 

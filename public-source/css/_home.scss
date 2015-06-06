@@ -1,4 +1,4 @@
-#paste {
+[id='paste'] {
   margin: 0 15px;
 }
 
@@ -29,6 +29,8 @@ article {
 
   img {
     max-width: 100%;
+    display: block;
+    margin: 0 auto;
   }
 
 
@@ -50,8 +52,27 @@ article {
 
 }
 
-#input {
-//  visibility: hidden;
-  //position: absolute;
+[id='input'] {
   margin-bottom: 1em;
+}
+
+[id='error'] {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0;
+  right: 0;
+  width: 30em;
+  margin: 0 auto;
+  color: #fff;
+  background-color: $cyan;
+  visibility: hidden;
+  opacity: 0;
+  transition: all 300ms ease;
+  padding: 1em;
+}
+
+.visible {
+  opacity: 1;
+  visibility: visible;
 }

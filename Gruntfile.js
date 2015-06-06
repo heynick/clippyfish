@@ -384,10 +384,10 @@ module.exports = function (grunt) {
     // do a production build
     grunt.registerTask('build', [
         'styles',
-        //'cssmin',
+        'cssmin',
         'scripts',
         'concat',
-        //'uglify',
+        'uglify',
         'fonts'
     ]);
 
