@@ -41,7 +41,7 @@ router.get('/paste', function(req, res) {
 
 		db.find({}).sort({date: -1}).skip(skipFrom).limit(limitLimit).exec(function (err, docs) {
 
-			if (docs.length < 10) {
+			if (docs.length < 1) {
 				res.send('butts');
 				return;
 			}

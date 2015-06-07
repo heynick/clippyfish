@@ -3,9 +3,8 @@ var app = app || {};
 app = (function () {
 	'use strict';
 
-	var doc = document;
-
-	var inputEl = doc.getElementById('input'),
+	var doc = document,
+		inputEl = doc.getElementById('input'),
 		errorEl = doc.getElementById('error'),
 		pasteEl = doc.getElementById('paste'),
 		introEl = doc.getElementById('intro-text');
@@ -65,6 +64,7 @@ app = (function () {
 
 		        var requestGet = new XMLHttpRequest();
 		        requestGet.open('GET', '/paste?more=' + (loadMoreCount * increment), true);
+
 
 		        requestGet.onload = function() {
 
