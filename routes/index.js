@@ -17,9 +17,11 @@ router.get('/', function(req, res) {
 });
 
 
+var limitLimit = 10;
+
 var sendDB = function(req,res) {
 	// get all items in the db, sort them by date reversed
-	db.find({}).sort({date: -1}).limit(6).exec(function (err, docs) {
+	db.find({}).sort({date: -1}).limit(limitLimit).exec(function (err, docs) {
 
 		if (err) {
 			res.send('err');
@@ -32,23 +34,34 @@ var sendDB = function(req,res) {
 
 router.get('/paste', function(req, res) {
 
-	sendDB(req,res);
 
-});
+	if (req.query.more) { // req.query.more contains the query string number value
 
-router.get('/more', function(req, res) {
+		var skipFrom = req.query.more - 1; // -1 otherwise all are returned, for some reason??
 
-	console.log(req);
+		db.find({}).sort({date: -1}).skip(skipFrom).limit(limitLimit).exec(function (err, docs) {
 
-	db.find({}).sort({date: -1}).skip(6).limit(6).exec(function (err, docs) {
+			console.log(docs.length);
 
-		if (err) {
-			res.send('err');
-		} else {
-			res.send(docs);
-		}
+			if (docs.length < 10) {
+				res.send('butts');
+				return;
+			}
 
-	});
+			if (err) {
+				res.send('err');
+			} else {
+				res.send(docs);
+			}
+
+		});
+
+	} else {
+
+		// if no query, send all
+		sendDB(req,res);
+
+	}
 
 });
 

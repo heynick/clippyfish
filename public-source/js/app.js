@@ -3,17 +3,26 @@ var app = app || {};
 app = (function () {
 	'use strict';
 
-	var inputEl = document.getElementById('input'),
-		errorEl = document.getElementById('error'),
-		pasteEl = document.getElementById('paste');
+	var doc = document;
+
+	var inputEl = doc.getElementById('input'),
+		errorEl = doc.getElementById('error'),
+		pasteEl = doc.getElementById('paste'),
+		introEl = doc.getElementById('intro-text');
+
+	var	inputFieldVisible = !window.chrome || (window.chrome && screen.width < 768) ? true : false,
+		bottomReached = false;
 
 
 	var forceFocus = function() {
 
-		inputEl.focus();
+		// only chrome desktop supports actual ctrl+v paste
+		// so all others must see the text input
 
-		if (window.chrome && screen.width > 768) {
-			inputEl.remove();
+		if ( inputFieldVisible ) {
+			introEl.innerHTML = 'Paste your junk into the textfield';
+			inputEl.classList.add('visible');
+			inputEl.focus();
 		}
 
 	};
@@ -22,37 +31,77 @@ app = (function () {
 	var ctrlTextChanger = function() {
 
 		if ( navigator.platform.indexOf('Win') > -1) {
-			document.getElementById('ctrl').innerText = 'Ctrl';
+			doc.getElementById('ctrl').innerText = 'Ctrl';
 		}
 
 	};
 
+
 	var loadMore = function() {
 
-		var count = 0;
+		function debounce(func, wait, immediate) {
+			var timeout;
+			return function() {
+				var context = this, args = arguments;
+				var later = function() {
+					timeout = null;
+					if (!immediate) func.apply(context, args);
+				};
+				var callNow = immediate && !timeout;
+				clearTimeout(timeout);
+				timeout = setTimeout(later, wait);
+				if (callNow) func.apply(context, args);
+			};
+		};
 
-		window.onscroll = function() {
-		    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-		        console.log('bottom');
+		var increment = 10, // needs to also mirror the limit on server
+			loadMoreCount = 1;
+
+		var efficientScroll = debounce(function() {
+
+			if (bottomReached) return;
+
+		    if ((window.innerHeight + window.scrollY) >= doc.body.offsetHeight) {
 
 		        var requestGet = new XMLHttpRequest();
-		        requestGet.open('GET', '/more', true);
+		        requestGet.open('GET', '/paste?more=' + (loadMoreCount * increment), true);
 
 		        requestGet.onload = function() {
 
-		          if (requestGet.status >= 200 && requestGet.status < 400){
+		        	if (requestGet.responseText === 'butts') {
+		        		// generate and render the butts markup
+
+		        		var buttWrapper = doc.createElement('div'),
+		        			buttImg = doc.createElement('img'),
+		        			buttTxt = doc.createElement('p');
+
+		        		buttImg.src = '/img/bottom.gif';
+		        		buttTxt.innerHTML = "You've reached the bottom!";
+
+		        		buttWrapper.id = 'butt-wrapper';
+		        		buttWrapper.appendChild(buttTxt);
+		        		buttWrapper.appendChild(buttImg);
+
+		        		pasteEl.appendChild(buttWrapper);
+
+		        		bottomReached = true;
+
+		        	} else if (requestGet.status >= 200 && requestGet.status < 400) {
 		        	    // Success!
 		        	    handleBarsRender(requestGet.responseText, true);
-				        count++;
+				        loadMoreCount++;
 
 		        	}
 		        };
 
-		        requestGet.send('BAAAAAAAAAAAAAAAAAAAAALLS');
+		        requestGet.send();
 
+			};
 
-		    }
-		};
+	    }, 500);
+
+		window.addEventListener('scroll', efficientScroll);
+
 	};
 
 
@@ -68,16 +117,18 @@ app = (function () {
 	var handleBarsRender = function(resp, initial) {
 
 		var respFile = JSON.parse(resp),
-	    	source = document.getElementById('template').innerHTML,
+	    	source = doc.getElementById('template').innerHTML,
 	    	template = Handlebars.compile(source),
 	    	html = template(respFile);
 
 
 	    // don't transition the first element if this is page load
 	    if (initial) {
-		    pasteEl.innerHTML = html;
+
+	    	pasteEl.insertAdjacentHTML('beforeend', html);
+
 	    } else {
-	    	pasteEl.innerHTML = html;
+	    	pasteEl.insertAdjacentHTML('afterbegin', html);
 
 	    	var newEl = pasteEl.childNodes[1];
 	    	newEl.classList.add('new');
@@ -107,17 +158,32 @@ app = (function () {
 
 	var paste = function() {
 
-		document.onpaste = function(e) {
-		    var paste = e.clipboardData && e.clipboardData.getData ?
-		        e.clipboardData.getData('text/plain') :                // Standard
-		        window.clipboardData && window.clipboardData.getData ?
-		        window.clipboardData.getData('Text') :                 // MS
-		        false;
+		var lastPaste = 0,
+			pasteWait = 2500;
 
-		    if (paste) {
-		        postToServer(paste);
-		    }
-		};
+		doc.addEventListener('paste', function(e) {
+
+			if (Date.now() - lastPaste > pasteWait) {
+
+			    var paste = e.clipboardData && e.clipboardData.getData ?
+			        e.clipboardData.getData('text/plain') :                // Standard
+			        window.clipboardData && window.clipboardData.getData ?
+			        window.clipboardData.getData('Text') :                 // MS
+			        false;
+
+			    if (paste) {
+			        postToServer(paste);
+			    }
+
+			    lastPaste = Date.now();
+
+			} else {
+				errorEl.innerHTML = "Hold your horses there matey, give it a few seconds";
+				showError();
+			}
+
+
+		});
 
 	};
 
@@ -145,6 +211,7 @@ app = (function () {
 			};
 
 			if (serverPaste.responseText === 'string too long') {
+				inputEl.value = '';
 				errorEl.innerHTML = "That's a bit too much text, try cutting it back to less than 2000 characters.";
 				showError();
 				return;
@@ -152,8 +219,18 @@ app = (function () {
 
 			if (serverPaste.responseText !== 'err') {
 				// all good in the hood
+
+				// reset the load more and bottom flag, seeing as we are clearing the #paste dom
+		        //loadMoreCount = 1;
+		        //bottomReached = false;
+
 				errorEl.classList.remove('visible');
 				handleBarsRender(serverPaste.responseText, false);
+
+				if (inputFieldVisible) {
+					introEl.remove();
+					inputEl.value = '';
+				}
 
 			} else {
 				errorEl.innerHTML = "Something rooted up happened on the server. Sorry about that.";
