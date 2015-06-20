@@ -75,6 +75,28 @@ router.get('/paste', function(req, res) {
 var urlRegex = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/ig;
 var imgRegex = /(jpg|gif|png|JPG|GIF|PNG|JPEG|jpeg)$/;
 
+/**
+ * JavaScript function to match (and return) the video Id
+ * of any valid Youtube Url, given as input string.
+ * @author: Stephan Schmitz <eyecatchup@gmail.com>
+ * @url: http://stackoverflow.com/a/10315969/624466
+ */
+function youtubeChecker(url) {
+  var p = /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
+  return (url.match(p)) ? RegExp.$1 : false;
+}
+
+function youtubeIDGrabber(url){
+    var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
+    var match = url.match(regExp);
+    if (match&&match[7].length==11){
+        return match[7];
+    }else{
+        alert("Url incorrecta");
+    }
+}
+
+
 function parseURL(inputString){
 
 
@@ -86,7 +108,9 @@ function parseURL(inputString){
 
             } else {
 
-            	if ( /^(f|ht)tps?:\/\//i.test(match)) {
+            	if (youtubeChecker(match)) {
+            		return '<div class="yt-wrapper"><iframe width="420" height="315" src="https://www.youtube.com/embed/' + youtubeIDGrabber(match) +  '" frameborder="0" allowfullscreen></iframe></div>';
+            	} else if ( /^(f|ht)tps?:\/\//i.test(match)) {
                 	return '<a href="' + match + '" target="_blank">' + match + '</a>';
             	} else {
             		return '<a href="http://' + match + '" target="_blank">' + match + '</a>';
@@ -107,6 +131,8 @@ router.post('/paste', function(req, res) {
 		res.send('string too long');
 		return;
 	}
+
+	console.log('yea' + rawPasteData);
 
 	var newPaste = {
 		date: new Date(),

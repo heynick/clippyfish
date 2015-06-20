@@ -172,8 +172,7 @@ app = (function () {
 			        false;
 
 			    if (paste) {
-			    	console.log(paste);
-			        postToServer(paste);
+			    	postToServer(paste);
 			    }
 
 			    lastPaste = Date.now();
@@ -228,7 +227,6 @@ app = (function () {
 				errorEl.classList.remove('visible');
 				handleBarsRender(serverPaste.responseText, false);
 
-				console.log(serverPaste.responseText);
 
 				if (inputFieldShown) {
 					introEl.remove();
@@ -242,8 +240,8 @@ app = (function () {
 			}
 
 		};
-
-		serverPaste.send(paste);
+		// need to encode the string so the xmlhttprequeset doesn't strip it
+		serverPaste.send(encodeURIComponent(paste));
 	};
 
 
