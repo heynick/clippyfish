@@ -11,8 +11,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <link rel="shortcut icon" href="/img/favicon.ico"/>
+  <link rel="apple-touch-icon" sizes="57x57" href="/img/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/img/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/img/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/img/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/img/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/img/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/img/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192"  href="/img/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/img/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+  <link rel="manifest" href="/img/manifest.json">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">
 
-  <title>Clippy fish</title>
+  <title>Clippy&#8203;fish</title>
 
   <link rel="stylesheet" type="text/css" href="/css/style.min.css">
 
@@ -21,21 +38,17 @@
 <body>
 
   <noscript>
-    <p class="browsehappy">
-      Your Javascript is disabled. Most of the internet probably won't work.
-    </p>
+    <p class="browsehappy">Your Javascript is disabled. Most of the Internet probably won't work.</p>
   </noscript>
 
   <!--[if lte IE 9]>
-  <p class="browsehappy">You're using an <strong>outdated</strong> browser which is not supported by this website. Please <a href="http://browsehappy.com/">upgrade
-      your browser</a> to improve the internet.</p>
+    <p class="browsehappy">You're using an <strong>outdated</strong> browser which is not supported by this website. Please upgrade your browser to improve the Internet.</p>
   <![endif]-->
-
 
   <script id="template" type="text/template">
 
   {{#.}}
-    <article id="{{_id}}">
+    <article>
       <div class="article-inner">
         <p>{{{data}}}</p>
         <span>{{dateFormat date}}</span>
@@ -46,25 +59,38 @@
 
   </script>
 
-
-
-  <h1>Clippy fish</h1>
-
-  <div id="intro">
-
-    <input type="text" id="input" autofocus="autofocus">
-
-    <div id="intro-text">
-      <p>Hit <strong><span id="ctrl">Command</span> + V</strong> to share with the world!</p>
-
-    </div>
+  <div class="logo">
+  <svg xmlns="http://www.w3.org/2000/svg" version="1.1" x="0" y="0" width="64" height="53.5" viewBox="-273 370.4 64 53.5" enable-background="new -273 370.4 64 53.5" xml:space="preserve"><path fill="#FFFFFF" stroke="#FFFFFF" stroke-width="4" d="M-239.9 388.2c0-3.5 0-7.1 0-10.7 0-3.1 3.1-5.6 6.1-5 6.2 1.2 12.3 2.4 18.5 3.7 2.7 0.5 4.3 2.5 4.3 5.2 0 10.6 0 21.1 0 31.7 0 2.6-1.7 4.7-4.4 5.1 -5.9 1.2-11.8 2.3-17.7 3.6 -3 0.6-7.2-1.3-6.9-5.7 0.2-3.5 0-7.1 0-10.6v-1.2l-1-0.1c-4.8-0.6-9.6-1.2-14.4-1.8 -1.6-0.2-3 0.2-4.2 1.3 -2.2 2.1-4.3 4.4-6.4 6.6 -0.9 0.9-1.8 1.7-3.2 1.3 -1.1-0.3-1.8-1.5-1.8-3.1 0-7.4 0-14.8 0-22.2 0-1.9 0.6-2.8 1.9-3.3 1.5-0.6 2.4 0.2 3.4 1.2 2.3 2.4 4.6 4.7 7.1 6.9 0.6 0.6 1.8 0.8 2.7 0.8 2.2-0.1 4.3-0.3 6.5-0.6 3.2-0.4 6.3-0.8 9.5-1.3C-239.9 389.3-239.9 388.8-239.9 388.2zM-238.3 403c8.6 1.4 17.1 2.8 25.7 4.2 0-6.7 0-13.3 0-20 -8.6 1.4-17.1 2.8-25.7 4.2C-238.3 395.4-238.3 399.1-238.3 403zM-240 391.5c-2.4 0.4-4.6 0.7-6.9 1 -2.8 0.4-5.7 0.6-8.6 1 -1.9 0.2-3.5-0.4-4.8-1.7 -2.3-2.2-4.4-4.4-6.7-6.6 -0.4-0.4-1.2-0.7-1.5-0.7 -0.5 0.1-0.9 0.5-0.9 1.6 0 7.4 0 14.9 0 22.3 0 0.5 0.2 1.5 0.7 1.6 0.3 0.1 1.1-0.5 1.5-0.9 2.3-2.3 4.5-4.7 6.9-6.9 1.2-1.2 2.8-1.6 4.6-1.4 4.9 0.7 9.9 1.2 14.8 1.8 0.3 0 0.5 0 0.9 0.1C-240 399-240 395.4-240 391.5zM-238.4 404.6c0 0.6 0 1 0 1.4 0 3.5 0 7 0 10.5 0 2.7 2.2 4.4 4.8 3.9 5.3-1.1 10.5-2.1 15.7-3.2 0.8-0.2 1.7-0.3 2.5-0.5 1.8-0.5 2.8-1.8 2.8-3.7 0-1.3 0-2.7 0-4.2C-221.2 407.4-229.8 405.9-238.4 404.6zM-212.7 381.7c0-2.3-1.2-3.7-3.4-4.1 -5.8-1.1-11.6-2.3-17.3-3.5 -2.9-0.6-5.1 1.1-5.1 4 0 3.4 0 6.8 0 10.2 0 0.5 0 0.9 0 1.5 3-0.5 5.9-0.9 8.7-1.4 5.3-0.8 10.6-1.8 15.9-2.6l1.2-0.2V381.7z"/></svg>
+  <h1>Clippy&#8203;fish</h1>
   </div>
 
+  <div id="intro">
+    <input type="text" id="input" autofocus="autofocus">
+    <div id="intro-text">
+      <p>Hit <strong><span id="ctrl">Command</span> + V</strong> to share with the world!</p>
+    </div>
+  </div>
 
   <div id="paste"></div>
   <div id="error"></div>
 
   <script src="js/scripts.min.js"></script>
+
+  <script>
+  WebFontConfig = {
+      google: { families: [ 'Raleway:700,400:latin' ] }
+  };
+
+  (function() {
+    var wf = document.createElement('script');
+    wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
+      '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+    wf.type = 'text/javascript';
+    wf.async = 'true';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(wf, s);
+  })();
+  </script>
 
   <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

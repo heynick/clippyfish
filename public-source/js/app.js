@@ -7,10 +7,20 @@ app = (function () {
 		inputEl = doc.getElementById('input'),
 		errorEl = doc.getElementById('error'),
 		pasteEl = doc.getElementById('paste'),
-		introEl = doc.getElementById('intro-text');
+		introEl = doc.getElementById('intro-text'),
+		source  = doc.getElementById('template').innerHTML;
 
-	var	inputFieldVisible = !window.chrome || (window.chrome && screen.width < 768) ? true : false,
+	var	inputFieldShown = !window.chrome || (window.chrome && screen.width < 768) ? true : false,
 		bottomReached = false;
+
+
+	var ctrlTextChanger = function() {
+
+		if ( navigator.platform.indexOf('Win') > -1) {
+			doc.getElementById('ctrl').innerText = 'Ctrl';
+		}
+
+	};
 
 
 	var forceFocus = function() {
@@ -18,19 +28,10 @@ app = (function () {
 		// only chrome desktop supports actual ctrl+v paste
 		// so all others must see the text input
 
-		if ( inputFieldVisible ) {
+		if ( inputFieldShown ) {
 			introEl.innerHTML = 'Paste your junk into the textfield';
 			inputEl.classList.add('visible');
 			inputEl.focus();
-		}
-
-	};
-
-
-	var ctrlTextChanger = function() {
-
-		if ( navigator.platform.indexOf('Win') > -1) {
-			doc.getElementById('ctrl').innerText = 'Ctrl';
 		}
 
 	};
@@ -117,7 +118,6 @@ app = (function () {
 	var handleBarsRender = function(resp, initial) {
 
 		var respFile = JSON.parse(resp),
-	    	source = doc.getElementById('template').innerHTML,
 	    	template = Handlebars.compile(source),
 	    	html = template(respFile);
 
@@ -172,6 +172,7 @@ app = (function () {
 			        false;
 
 			    if (paste) {
+			    	console.log(paste);
 			        postToServer(paste);
 			    }
 
@@ -227,7 +228,9 @@ app = (function () {
 				errorEl.classList.remove('visible');
 				handleBarsRender(serverPaste.responseText, false);
 
-				if (inputFieldVisible) {
+				console.log(serverPaste.responseText);
+
+				if (inputFieldShown) {
 					introEl.remove();
 					inputEl.value = '';
 				}

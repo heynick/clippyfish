@@ -1,4 +1,4 @@
 PassengerEnabled on
-PassengerAppRoot /home/otakuuuc/public_html/clip
+PassengerAppRoot /home/otakuuuc/public_html/clippy.fish
 SetEnv NODE_ENV production
 SetEnv NODE_PATH /usr/lib/node_modules

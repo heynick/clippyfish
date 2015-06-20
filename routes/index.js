@@ -17,10 +17,16 @@ router.get('/', function(req, res) {
 });
 
 
-var limitLimit = 10;
 
-var sendDB = function(req,res) {
+var sendDB = function(req,res, sendSingle) {
 	// get all items in the db, sort them by date reversed
+
+	if (sendSingle) {
+		var limitLimit = 1;
+	} else {
+		var limitLimit = 10;
+	}
+
 	db.find({}).sort({date: -1}).limit(limitLimit).exec(function (err, docs) {
 
 		if (err) {
@@ -39,7 +45,7 @@ router.get('/paste', function(req, res) {
 
 		var skipFrom = req.query.more - 1; // -1 otherwise all are returned, for some reason??
 
-		db.find({}).sort({date: -1}).skip(skipFrom).limit(limitLimit).exec(function (err, docs) {
+		db.find({}).sort({date: -1}).skip(skipFrom).limit(10).exec(function (err, docs) {
 
 			if (docs.length < 1) {
 				res.send('butts');
@@ -113,7 +119,9 @@ router.post('/paste', function(req, res) {
 		if (err) {
 			res.send('err');
 		} else {
-			sendDB(req,res);
+			// pass in 'true' so that sendDB only sends the client 1 new item,
+			// otherwise when 1 new item is added to the db, 10 will be served to the client. oops.
+			sendDB(req,res, true);
 		}
 
 	});
