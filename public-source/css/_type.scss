@@ -26,6 +26,9 @@
 
 p {
   margin: 0 0 1em;
+  &:empty {
+  	display: none;
+  }
 }
 
 a {
