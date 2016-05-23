@@ -87,6 +87,41 @@ img {
   }
 }
 
+[id='loading'] {
+  bottom: 0;
+  width: 100%;
+  padding-bottom: 0.75em;
+
+
+  span {
+    display: inline-block;
+    position: relative;
+  }
+
+  .left {
+    animation: swim-tail 0.5s 0s infinite linear;
+    transform-origin: right;
+    left: 2px
+  }
+  .right {
+    animation: swim-head 1.8s 0s infinite linear;
+    right: 3px;
+  }
+
+  svg {
+    width: 20px;
+  }
+
+  path {
+    stroke: $green;
+  }
+
+  &.hidden {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
 .yt-wrapper {
   position: relative;
   padding-bottom: 56.25%;

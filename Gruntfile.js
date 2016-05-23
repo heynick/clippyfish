@@ -392,7 +392,7 @@ module.exports = function (grunt) {
     ]);
 
     grunt.registerTask('scripts', ['copy:scriptLibs', 'rig']);
-    grunt.registerTask('styles', ['sass', 'autoprefixer']);
+    grunt.registerTask('styles', ['sass', 'autoprefixer', 'cssmin']);
     grunt.registerTask('fonts', ['copy:fonts']);
     grunt.registerTask('default', ['nodemon:dev']);
 };

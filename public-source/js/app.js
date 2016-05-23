@@ -8,10 +8,20 @@ app = (function () {
 		errorEl = doc.getElementById('error'),
 		pasteEl = doc.getElementById('paste'),
 		introEl = doc.getElementById('intro-text'),
+		loadingEl = doc.getElementById('loading'),
 		source  = doc.getElementById('template').innerHTML;
 
 	var	inputFieldShown = !window.chrome || (window.chrome && screen.width < 768) ? true : false,
 		bottomReached = false;
+
+	var isStandalone = function() {
+
+		if ( !!window.navigator.standalone ) {
+			doc.body.classList.add('standalone');
+			alert('yep');
+		}
+
+	};
 
 
 	var ctrlTextChanger = function() {
@@ -31,7 +41,7 @@ app = (function () {
 		if ( inputFieldShown ) {
 			introEl.innerHTML = 'Paste your junk into the textfield';
 			inputEl.classList.add('visible');
-			inputEl.focus();
+			//inputEl.focus();
 		}
 
 	};
@@ -63,11 +73,13 @@ app = (function () {
 
 		    if ((window.innerHeight + window.scrollY) >= doc.body.offsetHeight) {
 
+
 		        var requestGet = new XMLHttpRequest();
 		        requestGet.open('GET', '/paste?more=' + (loadMoreCount * increment), true);
 
 
 		        requestGet.onload = function() {
+
 
 		        	if (requestGet.responseText === 'butts') {
 		        		// generate and render the butts markup
@@ -86,6 +98,7 @@ app = (function () {
 		        		pasteEl.appendChild(buttWrapper);
 
 		        		bottomReached = true;
+		        		loadingEl.classList.add('hidden');
 
 		        	} else if (requestGet.status >= 200 && requestGet.status < 400) {
 		        	    // Success!
@@ -246,6 +259,7 @@ app = (function () {
 
 
 	return {
+		isStandalone: isStandalone,
 		forceFocus: forceFocus,
 		initialRender: initialRender,
 		ctrlTextChanger: ctrlTextChanger,

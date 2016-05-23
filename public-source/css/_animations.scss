@@ -2,8 +2,8 @@
   0% {
     filter: hue-rotate(0deg);
   }
-  20% {
-    filter: hue-rotate(-10deg);
+  30% {
+    filter: hue-rotate(0deg);
   }
   40% {
     filter: hue-rotate(-110deg);
@@ -15,6 +15,42 @@
     filter: hue-rotate(-270deg);
   }
   100% {
-    filter: hue-rotate(-360deg);
+    filter: hue-rotate(-359deg);
+  }
+}
+
+@keyframes swim-tail {
+  0% {
+    transform: perspective( 250px ) rotateY( 0deg );
+  }
+  25% {
+    transform: perspective( 250px ) rotateY( 25deg );
+  }
+  50% {
+    transform: perspective( 250px ) rotateY( 0deg );
+  }
+  75% {
+    transform: perspective( 250px ) rotateY( -25deg );
+  }
+  100% {
+    transform: perspective( 250px ) rotateY( -0deg );
+  }
+}
+
+@keyframes swim-head {
+  0% {
+    transform: perspective( 600px ) rotateY( 0deg );
+  }
+  25% {
+    transform: perspective( 600px ) rotateY( 15deg );
+  }
+  50% {
+    transform: perspective( 600px ) rotateY( 0deg );
+  }
+  75% {
+    transform: perspective( 600px ) rotateY( -15deg );
+  }
+  100% {
+    transform: perspective( 600px ) rotateY( -0deg );
   }
 }

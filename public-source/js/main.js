@@ -2,6 +2,8 @@ window.onload = function() {
     'use strict';
 
     // initialise modules
+
+    app.isStandalone();
     app.ctrlTextChanger();
     app.forceFocus();
     app.initialRender();
